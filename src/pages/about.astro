@@ -1,0 +1,67 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+import GlassCard from '../components/GlassCard.astro';
+import { siteConfig } from '../site.config';
+---
+
+<BaseLayout title="About" description="About me — who I am and what I do.">
+  <section class="container-page py-32">
+    <ScrollReveal>
+      <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
+        About
+      </span>
+      <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+        Who I am
+      </h1>
+    </ScrollReveal>
+
+    <div class="mt-16 grid gap-12 lg:grid-cols-[1fr_1.5fr]">
+      <ScrollReveal>
+        <div class="relative overflow-hidden rounded-[2rem] p-[1.5px]"
+          style="background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)">
+          <div class="aspect-[3/4] rounded-[calc(2rem-1.5px)] bg-white/[0.02] p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-xl">
+            <div class="flex h-full items-center justify-center text-white/15">
+              <i class="ri-user-line text-8xl"></i>
+            </div>
+          </div>
+        </div>
+      </ScrollReveal>
+
+      <div class="space-y-8">
+        <ScrollReveal>
+          <GlassCard>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">Hello</h2>
+            <p class="mt-4 leading-relaxed text-white/50">
+              {siteConfig.author.aboutText}
+            </p>
+          </GlassCard>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <GlassCard>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">Skills</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {siteConfig.skills.map((skill) => (
+                <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/40">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </GlassCard>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <GlassCard>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">This site</h2>
+            <p class="mt-4 leading-relaxed text-white/50">
+              Built with <span class="text-white/70">Astro</span>, styled with
+              <span class="text-white/70">Tailwind CSS</span>, and deployed on my own server.
+              The design draws from glassmorphism principles with dynamic particle backgrounds.
+            </p>
+          </GlassCard>
+        </ScrollReveal>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

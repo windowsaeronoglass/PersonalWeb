@@ -1,0 +1,101 @@
+---
+import GlassCard from './GlassCard.astro';
+import { siteConfig } from '../site.config';
+---
+
+<GlassCard class="mx-auto max-w-[560px]">
+  <form id="contact-form" class="space-y-6">
+    <div class="grid gap-6 md:grid-cols-2">
+      <div>
+        <label for="name" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          placeholder="Your name"
+          class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
+        />
+      </div>
+      <div>
+        <label for="email" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          placeholder="your@email.com"
+          class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
+        />
+      </div>
+    </div>
+    <div>
+      <label for="subject" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Subject</label>
+      <input
+        type="text"
+        id="subject"
+        name="subject"
+        required
+        placeholder="What's this about?"
+        class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
+      />
+    </div>
+    <div>
+      <label for="message" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Message</label>
+      <textarea
+        id="message"
+        name="message"
+        required
+        rows="5"
+        placeholder="Your message..."
+        class="w-full resize-none rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
+      ></textarea>
+    </div>
+    <button
+      type="submit"
+      class="group relative inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] px-6 py-3 text-sm font-medium text-white transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/[0.1] active:scale-[0.98]"
+    >
+      <span id="submit-text">Send Message</span>
+      <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+        <i class="ri-send-plane-fill text-xs"></i>
+      </span>
+    </button>
+    <p id="form-status" class="hidden text-center text-sm"></p>
+  </form>
+</GlassCard>
+
+<script define:vars={{ apiPath: siteConfig.contactApiPath }}>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = document.getElementById('form-status')!;
+  const submitText = document.getElementById('submit-text')!;
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitText.textContent = 'Sending...';
+    status.className = 'hidden';
+
+    const data = Object.fromEntries(new FormData(form));
+
+    try {
+      const res = await fetch(apiPath, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        status.className = 'block text-white/60 text-sm';
+        status.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+        form.reset();
+      } else {
+        const err = await res.json();
+        throw new Error(err.error || 'Failed');
+      }
+    } catch (err: any) {
+      status.className = 'block text-red-400/80 text-sm';
+      status.textContent = err.message || 'Something went wrong. Please try again.';
+    } finally {
+      submitText.textContent = 'Send Message';
+    }
+  });
+</script>

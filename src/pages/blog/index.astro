@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ScrollReveal from '../../components/ScrollReveal.astro';
+import { getCollection } from 'astro:content';
+import { siteConfig } from '../../site.config';
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<BaseLayout title="Blog" description="Articles on tech, code, and more.">
+  <section class="container-page py-32">
+    <ScrollReveal>
+      <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
+        Writing
+      </span>
+      <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+        Blog
+      </h1>
+      <p class="mt-4 max-w-[500px] text-white/40">
+        Thoughts, tutorials, and deep dives on things I care about.
+      </p>
+    </ScrollReveal>
+
+    <div class="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {
+        posts.length === 0 ? (
+          <div class="col-span-full py-24 text-center text-white/30">
+            No posts yet. Coming soon.
+          </div>
+        ) : (
+          posts.map((post) => (
+            <ScrollReveal>
+              <a href={`/blog/${post.slug}`} class="group block">
+                <div class="relative rounded-[2rem] p-[1.5px] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.01]"
+                  style="background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)">
+                  <div class="rounded-[calc(2rem-1.5px)] bg-white/[0.03] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-xl">
+                    <div class="mb-3 flex items-center gap-3">
+                      {post.data.tags.slice(0, 2).map((tag) => (
+                        <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-white/40">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <h2 class="font-display text-xl font-semibold tracking-tight text-white">
+                      {post.data.title}
+                    </h2>
+                    {post.data.description && (
+                      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-white/40">
+                        {post.data.description}
+                      </p>
+                    )}
+                    <time datetime={post.data.date.toISOString()} class="mt-4 block text-xs text-white/25">
+                      {post.data.date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
+                    </time>
+                    <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white/50">
+                      Read more
+                      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+                        <i class="ri-arrow-right-up-line text-xs"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </ScrollReveal>
+          ))
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,37 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { siteConfig } from '../site.config';
+
+export interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  ogImage?: string;
+}
+
+const { title, description, date, ogImage } = Astro.props;
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage}>
+  <article class="container-page py-32">
+    <header class="mb-16">
+      <div class="mb-6">
+        <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
+          Blog
+        </span>
+      </div>
+      <h1 class="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl lg:text-7xl">
+        {title}
+      </h1>
+      <time datetime={date.toISOString()} class="mt-6 block text-sm text-white/40">
+        {date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
+      </time>
+    </header>
+    <div class="prose prose-invert prose-lg mx-auto max-w-[720px]">
+      <slot />
+    </div>
+    <footer class="mx-auto mt-24 max-w-[720px] border-t border-white/5 pt-12">
+      <slot name="comments" />
+    </footer>
+  </article>
+</BaseLayout>

@@ -1,0 +1,29 @@
+<div
+  class="reveal translate-y-16 opacity-0 blur-sm transition-all duration-[800ms] ease-[cubic-bezier(0.32,0.72,0,1)]"
+  data-reveal
+>
+  <slot />
+</div>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.remove('translate-y-16', 'opacity-0', 'blur-sm');
+          entry.target.classList.add('translate-y-0', 'opacity-100', 'blur-0');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+  document.addEventListener('astro:after-swap', () => {
+    document.querySelectorAll('[data-reveal]:not([data-observed])').forEach((el) => {
+      el.setAttribute('data-observed', '');
+      observer.observe(el);
+    });
+  });
+</script>

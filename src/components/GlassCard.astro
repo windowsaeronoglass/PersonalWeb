@@ -1,0 +1,17 @@
+---
+export interface Props {
+  class?: string;
+  hover?: boolean;
+}
+
+const { class: className = '', hover = false } = Astro.props;
+---
+
+<div
+  class={`relative rounded-[2rem] p-[1.5px] ${hover ? 'transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.01]' : ''} ${className}`}
+  style="background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)"
+>
+  <div class="rounded-[calc(2rem-1.5px)] bg-white/[0.03] p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] backdrop-blur-xl">
+    <slot />
+  </div>
+</div>

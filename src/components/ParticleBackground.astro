@@ -1,0 +1,132 @@
+<div
+  id="particles"
+  class="pointer-events-none fixed inset-0 z-0"
+  aria-hidden="true"
+>
+  <canvas id="particle-canvas" class="absolute inset-0 h-full w-full"></canvas>
+</div>
+
+<style>
+  #particles {
+    background: radial-gradient(
+      ellipse 80% 60% at 50% -10%,
+      rgba(120, 80, 255, 0.08),
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 80% 80%,
+      rgba(80, 200, 180, 0.05),
+      transparent 50%
+    ),
+    #050505;
+  }
+</style>
+
+<script>
+  class ParticleField {
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private particles: Particle[] = [];
+    private mouse = { x: -1000, y: -1000 };
+    private width = 0;
+    private height = 0;
+    private animFrame = 0;
+
+    constructor() {
+      this.canvas = document.getElementById('particle-canvas') as HTMLCanvasElement;
+      const ctx = this.canvas.getContext('2d');
+      if (!ctx) return;
+      this.ctx = ctx;
+      this.resize();
+      this.init();
+      window.addEventListener('resize', () => this.resize());
+      document.addEventListener('mousemove', (e) => {
+        this.mouse.x = e.clientX;
+        this.mouse.y = e.clientY;
+      });
+      this.animate();
+    }
+
+    private resize() {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+    }
+
+    private init() {
+      const count = Math.floor((this.width * this.height) / 15000);
+      this.particles = [];
+      for (let i = 0; i < count; i++) {
+        this.particles.push({
+          x: Math.random() * this.width,
+          y: Math.random() * this.height,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          r: Math.random() * 1.5 + 0.5,
+          o: Math.random() * 0.5 + 0.1,
+        });
+      }
+    }
+
+    private animate = () => {
+      this.animFrame = requestAnimationFrame(this.animate);
+      this.ctx.clearRect(0, 0, this.width, this.height);
+
+      for (const p of this.particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0) p.x = this.width;
+        if (p.x > this.width) p.x = 0;
+        if (p.y < 0) p.y = this.height;
+        if (p.y > this.height) p.y = 0;
+
+        const dx = this.mouse.x - p.x;
+        const dy = this.mouse.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 180;
+
+        if (dist < maxDist) {
+          const force = (1 - dist / maxDist) * 0.5;
+          p.x -= dx * force * 0.03;
+          p.y -= dy * force * 0.03;
+        }
+
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(255,255,255,${p.o})`;
+        this.ctx.fill();
+      }
+
+      for (let i = 0; i < this.particles.length; i++) {
+        for (let j = i + 1; j < this.particles.length; j++) {
+          const a = this.particles[i];
+          const b = this.particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 120) {
+            this.ctx.beginPath();
+            this.ctx.moveTo(a.x, a.y);
+            this.ctx.lineTo(b.x, b.y);
+            this.ctx.strokeStyle = `rgba(255,255,255,${0.03 * (1 - dist / 120)})`;
+            this.ctx.lineWidth = 0.5;
+            this.ctx.stroke();
+          }
+        }
+      }
+    };
+  }
+
+  interface Particle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    r: number;
+    o: number;
+  }
+
+  requestAnimationFrame(() => new ParticleField());
+</script>

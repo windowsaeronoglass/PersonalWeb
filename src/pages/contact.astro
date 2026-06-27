@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ScrollReveal from '../components/ScrollReveal.astro';
+import ContactForm from '../components/ContactForm.astro';
+import GlassCard from '../components/GlassCard.astro';
+import { siteConfig } from '../site.config';
+---
+
+<BaseLayout title="Contact" description="Get in touch.">
+  <section class="container-page py-32">
+    <ScrollReveal>
+      <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
+        Get in touch
+      </span>
+      <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
+        Contact
+      </h1>
+      <p class="mt-4 max-w-[500px] text-white/40">
+        Have a question, a project idea, or just want to say hi?
+        Fill out the form and I'll get back to you.
+      </p>
+    </ScrollReveal>
+
+    <div class="mt-16 grid gap-12 lg:grid-cols-[1fr_1.5fr]">
+      <div class="space-y-6">
+        <ScrollReveal>
+          <GlassCard>
+            <div class="flex items-start gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5">
+                <i class="ri-mail-line text-white/50"></i>
+              </span>
+              <div>
+                <h3 class="font-semibold text-white/70">Email</h3>
+                <p class="mt-1 text-sm text-white/40">{siteConfig.author.email}</p>
+              </div>
+            </div>
+          </GlassCard>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <GlassCard>
+            <div class="flex items-start gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5">
+                <i class="ri-github-fill text-white/50"></i>
+              </span>
+              <div>
+                <h3 class="font-semibold text-white/70">GitHub</h3>
+                <p class="mt-1 text-sm text-white/40">{siteConfig.social.github.replace('https://github.com/', '')}</p>
+              </div>
+            </div>
+          </GlassCard>
+        </ScrollReveal>
+
+        <ScrollReveal>
+          <GlassCard>
+            <div class="flex items-start gap-4">
+              <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5">
+                <i class="ri-twitter-x-fill text-white/50"></i>
+              </span>
+              <div>
+                <h3 class="font-semibold text-white/70">Twitter / X</h3>
+                <p class="mt-1 text-sm text-white/40">{siteConfig.social.twitter.replace('https://twitter.com/', '@')}</p>
+              </div>
+            </div>
+          </GlassCard>
+        </ScrollReveal>
+      </div>
+
+      <ScrollReveal>
+        <ContactForm />
+      </ScrollReveal>
+    </div>
+  </section>
+</BaseLayout>

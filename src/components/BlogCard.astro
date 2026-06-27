@@ -1,0 +1,42 @@
+---
+import GlassCard from './GlassCard.astro';
+
+export interface Props {
+  title: string;
+  description?: string;
+  date: Date;
+  slug: string;
+  tags?: string[];
+}
+
+const { title, description, date, slug, tags = [] } = Astro.props;
+---
+
+<GlassCard hover>
+  <a href={`/blog/${slug}`} class="block">
+    <div class="mb-3 flex items-center gap-3">
+      {tags.map((tag) => (
+        <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-white/40">
+          {tag}
+        </span>
+      ))}
+    </div>
+    <h3 class="font-display text-xl font-semibold tracking-tight text-white transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-white/90">
+      {title}
+    </h3>
+    {description && (
+      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-white/40">
+        {description}
+      </p>
+    )}
+    <time datetime={date.toISOString()} class="mt-4 block text-xs text-white/25">
+      {date.toLocaleDateString('zh-CN', { year: 'numeric', month: 'long', day: 'numeric' })}
+    </time>
+    <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-white">
+      Read more
+      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+        <i class="ri-arrow-right-up-line text-xs"></i>
+      </span>
+    </div>
+  </a>
+</GlassCard>

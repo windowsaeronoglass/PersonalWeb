@@ -1,0 +1,47 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' },
+];
+---
+
+<nav
+  id="nav"
+  class="fixed left-1/2 top-0 z-50 -translate-x-1/2 pt-6"
+>
+  <div class="flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.03] p-1.5 backdrop-blur-2xl">
+    {
+      navItems.map((item) => (
+        <a
+          href={item.href}
+          class="group relative rounded-full px-5 py-2 text-sm font-medium text-white/50 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-white data-[current]:text-white"
+          data-current={Astro.url.pathname === item.href ? '' : undefined}
+        >
+          {item.label}
+          <span class="absolute inset-0 rounded-full bg-white/10 opacity-0 transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:opacity-100" />
+        </a>
+      ))
+    }
+  </div>
+</nav>
+
+<script>
+  function updateActiveNav() {
+    const path = window.location.pathname;
+    document.querySelectorAll('#nav a').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (href) {
+        const isActive = path === href || (href !== '/' && path.startsWith(href));
+        if (isActive) {
+          a.setAttribute('data-current', '');
+        } else {
+          a.removeAttribute('data-current');
+        }
+      }
+    });
+  }
+  updateActiveNav();
+  document.addEventListener('astro:after-swap', updateActiveNav);
+</script>
