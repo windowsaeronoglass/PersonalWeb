@@ -17,7 +17,7 @@ const { title, description, date, slug, tags = [] } = Astro.props;
   <a href={`/blog/${slug}`} class="block">
     <div class="mb-3 flex items-center gap-3">
       {tags.map((tag) => (
-        <span class="rounded-full border border-white/10 bg-white/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-white/40">
+        <span class="rounded-full border border-particle-blue/10 bg-particle-blue/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-text-body/50">
           {tag}
         </span>
       ))}
@@ -26,16 +26,16 @@ const { title, description, date, slug, tags = [] } = Astro.props;
       {title}
     </h3>
     {description && (
-      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-white/40">
+      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-text-body/60">
         {description}
       </p>
     )}
-    <time datetime={date.toISOString()} class="mt-4 block text-xs text-white/25">
+    <time datetime={date.toISOString()} class="mt-4 block text-xs text-text-body/30">
       {date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
     </time>
-    <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-white/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-white">
+    <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-text-body/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-accent">
       阅读全文
-      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-white/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-particle-blue/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105 group-hover:bg-accent/15">
         <i class="ri-arrow-right-up-line text-xs"></i>
       </span>
     </div>
