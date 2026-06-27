@@ -67,104 +67,104 @@ const navItems = [
   </div>
 </header>
 
-<script define:vars={{ launchMs, launchDate: siteConfig.launchDate }}>
-  // 实时时钟
-  function updateClock() {
-    const el = document.getElementById('status-clock');
-    if (!el) return;
-    const now = new Date();
-    el.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
-  }
-  updateClock();
-  setInterval(updateClock, 1000);
+<script is:inline>
+  (function() {
+    var launchMs = {launchMs};
 
-  // 运行天数
-  function updateDays() {
-    const el = document.getElementById('status-days');
-    if (!el) return;
-    const days = Math.floor((Date.now() - launchMs) / 86400000);
-    el.textContent = `已运行 ${days} 天`;
-  }
-  updateDays();
-
-  // 天气 (Open-Meteo, 免费无需 key)
-  async function fetchWeather(lat?: number, lon?: number) {
-    try {
-      if (!lat || !lon) {
-        // 默认：成都
-        lat = 30.57;
-        lon = 104.07;
+    // 实时时钟
+    function updateClock() {
+      var el = document.getElementById('status-clock');
+      if (el) {
+        var now = new Date();
+        el.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
       }
-      const res = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // 运行天数
+    var daysEl = document.getElementById('status-days');
+    if (daysEl) {
+      var days = Math.floor((Date.now() - launchMs) / 86400000);
+      daysEl.textContent = '已运行 ' + days + ' 天';
+    }
+
+    // 天气
+    function getWeatherIcon(code) {
+      if (code <= 1) return '☀️';
+      if (code === 2) return '⛅';
+      if (code === 3) return '☁️';
+      if (code <= 48) return '🌫';
+      if ([51,53,55,56,57,61,63,65,66,67,80,81,82].indexOf(code) >= 0) return '🌧';
+      if ([71,73,75,77,85,86].indexOf(code) >= 0) return '🌨';
+      if ([95,96,99].indexOf(code) >= 0) return '⛈';
+      return '🌤';
+    }
+
+    async function fetchWeather(lat, lon) {
+      try {
+        if (!lat) { lat = 30.57; lon = 104.07; }
+        var res = await fetch(
+          'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon + '&current=temperature_2m,weather_code&timezone=auto'
+        );
+        var data = await res.json();
+        var temp = Math.round(data.current.temperature_2m);
+        var icon = getWeatherIcon(data.current.weather_code);
+        var el = document.getElementById('status-weather');
+        if (el) el.textContent = icon + ' ' + temp + '°C';
+      } catch(e) {}
+    }
+
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        function(pos) { fetchWeather(pos.coords.latitude, pos.coords.longitude); },
+        function() { fetchWeather(); },
+        { timeout: 5000 }
       );
-      const data = await res.json();
-      const temp = Math.round(data.current.temperature_2m);
-      const code = data.current.weather_code;
-      const icon = ['☀️','🌤','⛅','☁️','🌧','⛈','🌨','🌫'][
-        [0,1,2,3].includes(code) ? 0 :
-        code <= 2 ? 1 :
-        code === 3 ? 3 :
-        code <= 48 ? 7 :
-        [51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code) ? 4 :
-        [71,73,75,77,85,86].includes(code) ? 6 :
-        [95,96,99].includes(code) ? 5 : 2
-      ];
-      const el = document.getElementById('status-weather');
-      if (el) el.textContent = `${icon} ${temp}°C`;
-    } catch {}
-  }
-
-  navigator.geolocation?.getCurrentPosition(
-    (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
-    () => fetchWeather(),
-    { timeout: 5000 }
-  );
-  if (!navigator.geolocation) fetchWeather();
-  setInterval(fetchWeather, 30 * 60 * 1000);
-
-  // 访客计数 (localStorage)
-  function updateVisitors() {
-    const key = 'site_visits';
-    let count = parseInt(localStorage.getItem(key) || '0', 10);
-    const today = new Date().toDateString();
-    const lastVisit = localStorage.getItem('site_last_visit');
-    if (lastVisit !== today) {
-      count++;
-      localStorage.setItem(key, String(count));
-      localStorage.setItem('site_last_visit', today);
+    } else {
+      fetchWeather();
     }
-    const el = document.getElementById('status-visitors');
-    if (el) {
-      el.textContent = `访客 #${count}`;
-    }
-  }
-  updateVisitors();
 
-  // 搜索按钮
-  document.getElementById('status-search')?.addEventListener('click', () => {
-    const q = prompt('输入搜索关键词：');
-    if (q) {
-      window.open(`https://www.google.com/search?q=site:${location.hostname}+${encodeURIComponent(q)}`, '_blank');
-    }
-  });
-</script>
-
-<script>
-  function updateActiveNav() {
-    const path = window.location.pathname;
-    document.querySelectorAll('#status-bar a').forEach((a) => {
-      const href = a.getAttribute('href');
-      if (href) {
-        const isActive = path === href || (href !== '/' && path.startsWith(href));
-        if (isActive) {
-          a.setAttribute('data-current', '');
-        } else {
-          a.removeAttribute('data-current');
-        }
+    // 访客计数
+    var visitorsEl = document.getElementById('status-visitors');
+    if (visitorsEl) {
+      var key = 'site_visits';
+      var count = parseInt(localStorage.getItem(key) || '0', 10);
+      var today = new Date().toDateString();
+      if (localStorage.getItem('site_last_visit') !== today) {
+        count++;
+        localStorage.setItem(key, String(count));
+        localStorage.setItem('site_last_visit', today);
       }
-    });
-  }
-  updateActiveNav();
-  document.addEventListener('astro:after-swap', updateActiveNav);
+      visitorsEl.textContent = '访客 #' + count;
+    }
+
+    // 搜索按钮
+    var searchBtn = document.getElementById('status-search');
+    if (searchBtn) {
+      searchBtn.addEventListener('click', function() {
+        var q = prompt('输入搜索关键词：');
+        if (q) {
+          window.open('https://www.google.com/search?q=site:' + location.hostname + '+' + encodeURIComponent(q), '_blank');
+        }
+      });
+    }
+
+    // 导航高亮
+    function updateNav() {
+      var path = window.location.pathname;
+      document.querySelectorAll('#status-bar a').forEach(function(a) {
+        var href = a.getAttribute('href');
+        if (href) {
+          if (path === href || (href !== '/' && path.indexOf(href) === 0)) {
+            a.setAttribute('data-current', '');
+          } else {
+            a.removeAttribute('data-current');
+          }
+        }
+      });
+    }
+    updateNav();
+    document.addEventListener('astro:after-swap', updateNav);
+  })();
 </script>
