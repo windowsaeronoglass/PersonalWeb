@@ -1,0 +1,161 @@
+<canvas
+  id="mouse-canvas"
+  class="pointer-events-none fixed inset-0 z-10"
+  aria-hidden="true"
+></canvas>
+
+<script>
+  class MouseEffects {
+    private canvas: HTMLCanvasElement;
+    private ctx: CanvasRenderingContext2D;
+    private width = 0;
+    private height = 0;
+    private trail: TrailPoint[] = [];
+    private ripples: Ripple[] = [];
+    private mouse = { x: -100, y: -100 };
+    private lastMouse = { x: -100, y: -100 };
+    private animFrame = 0;
+
+    constructor() {
+      this.canvas = document.getElementById('mouse-canvas') as HTMLCanvasElement;
+      const ctx = this.canvas.getContext('2d');
+      if (!ctx) return;
+      this.ctx = ctx;
+      this.resize();
+      window.addEventListener('resize', () => this.resize());
+      document.addEventListener('mousemove', (e) => this.onMove(e));
+      document.addEventListener('click', (e) => this.onClick(e));
+      this.animate();
+    }
+
+    private resize() {
+      this.width = window.innerWidth;
+      this.height = window.innerHeight;
+      this.canvas.width = this.width;
+      this.canvas.height = this.height;
+    }
+
+    private onMove(e: MouseEvent) {
+      this.mouse.x = e.clientX;
+      this.mouse.y = e.clientY;
+
+      const dx = this.mouse.x - this.lastMouse.x;
+      const dy = this.mouse.y - this.lastMouse.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist > 3) {
+        const steps = Math.floor(dist / 4);
+        for (let i = 0; i < steps; i++) {
+          const t = i / steps;
+          this.trail.push({
+            x: this.lastMouse.x + dx * t,
+            y: this.lastMouse.y + dy * t,
+            r: Math.random() * 3 + 2,
+            life: 1,
+          });
+        }
+      }
+
+      this.lastMouse.x = this.mouse.x;
+      this.lastMouse.y = this.mouse.y;
+    }
+
+    private onClick(e: MouseEvent) {
+      for (let i = 0; i < 3; i++) {
+        this.ripples.push({
+          x: e.clientX,
+          y: e.clientY,
+          radius: 0,
+          maxRadius: 60 + i * 30,
+          life: 1,
+          delay: i * 80,
+        });
+      }
+    }
+
+    private animate = () => {
+      this.animFrame = requestAnimationFrame(this.animate);
+      this.ctx.clearRect(0, 0, this.width, this.height);
+
+      // Draw trail
+      for (let i = this.trail.length - 1; i >= 0; i--) {
+        const p = this.trail[i];
+        p.life -= 0.015;
+        if (p.life <= 0) {
+          this.trail.splice(i, 1);
+          continue;
+        }
+        const r = p.r * p.life;
+        const alpha = p.life * 0.7;
+        this.ctx.beginPath();
+        this.ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+        this.ctx.fillStyle = `rgba(236, 72, 153, ${alpha})`;
+        this.ctx.fill();
+      }
+
+      // Draw trail lines between nearby points
+      for (let i = 0; i < this.trail.length - 1; i++) {
+        const a = this.trail[i];
+        const b = this.trail[i + 1];
+        if (!a || !b) continue;
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 30) {
+          const alpha = Math.min(a.life, b.life) * 0.3 * (1 - dist / 30);
+          this.ctx.beginPath();
+          this.ctx.moveTo(a.x, a.y);
+          this.ctx.lineTo(b.x, b.y);
+          this.ctx.strokeStyle = `rgba(244, 114, 182, ${alpha})`;
+          this.ctx.lineWidth = 1;
+          this.ctx.stroke();
+        }
+      }
+
+      // Draw ripples
+      for (let i = this.ripples.length - 1; i >= 0; i--) {
+        const r = this.ripples[i];
+        if (r.delay > 0) {
+          r.delay -= 16;
+          continue;
+        }
+        r.radius += 2;
+        r.life -= 0.018;
+        if (r.life <= 0) {
+          this.ripples.splice(i, 1);
+          continue;
+        }
+        const alpha = r.life * 0.5;
+        const progress = r.radius / r.maxRadius;
+        this.ctx.beginPath();
+        this.ctx.arc(r.x, r.y, r.radius, 0, Math.PI * 2);
+        this.ctx.strokeStyle = `rgba(96, 165, 250, ${alpha * (1 - progress)})`;
+        this.ctx.lineWidth = 2 * (1 - progress);
+        this.ctx.stroke();
+      }
+
+      // Limit trail length
+      if (this.trail.length > 120) {
+        this.trail.splice(0, this.trail.length - 120);
+      }
+    };
+  }
+
+  interface TrailPoint {
+    x: number;
+    y: number;
+    r: number;
+    life: number;
+  }
+
+  interface Ripple {
+    x: number;
+    y: number;
+    radius: number;
+    maxRadius: number;
+    life: number;
+    delay: number;
+  }
+
+  requestAnimationFrame(() => new MouseEffects());
+</script>

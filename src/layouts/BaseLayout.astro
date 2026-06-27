@@ -2,6 +2,7 @@
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import ParticleBackground from '../components/ParticleBackground.astro';
+import MouseEffects from '../components/MouseEffects.astro';
 import { siteConfig } from '../site.config';
 
 export interface Props {
@@ -44,6 +45,7 @@ const siteTitle = `${title} | ${siteConfig.title}`;
   </head>
   <body class="min-h-[100dvh] antialiased">
     <ParticleBackground />
+    <MouseEffects />
     <Nav />
     <main class="relative z-0">
       <slot />
