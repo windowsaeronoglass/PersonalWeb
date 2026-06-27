@@ -10,20 +10,20 @@
   #particles {
     background: radial-gradient(
       ellipse 80% 60% at 50% -10%,
-      rgba(96, 165, 250, 0.06),
+      rgba(96, 165, 250, 0.08),
       transparent 60%
     ),
     radial-gradient(
       ellipse 60% 50% at 80% 80%,
-      rgba(244, 114, 182, 0.05),
+      rgba(236, 72, 153, 0.06),
       transparent 50%
     ),
     radial-gradient(
       ellipse 40% 40% at 20% 40%,
-      rgba(96, 165, 250, 0.04),
+      rgba(96, 165, 250, 0.05),
       transparent 50%
     ),
-    #0B0E1A;
+    #F5F5F0;
   }
 </style>
 
@@ -70,9 +70,9 @@
           y: Math.random() * this.height,
           vx: (Math.random() - 0.5) * 0.3,
           vy: (Math.random() - 0.5) * 0.3,
-          r: Math.random() * 1.5 + 0.5,
-          o: Math.random() * 0.4 + 0.15,
-          hue: t, // 0=blue, 1=pink
+          r: Math.random() * 2 + 0.5,
+          o: Math.random() * 0.35 + 0.1,
+          hue: t,
         });
       }
     }
@@ -102,11 +102,10 @@
           p.y -= dy * force * 0.03;
         }
 
-        // Blue to pink gradient based on particle's hue + time oscillation
         const hueShift = (p.hue + Math.sin(this.time + p.x * 0.01) * 0.3 + 1) % 1;
-        const r = Math.floor(96 + (244 - 96) * hueShift);
-        const g = Math.floor(165 + (114 - 165) * hueShift);
-        const b = Math.floor(250 + (182 - 250) * hueShift);
+        const r = Math.floor(96 + (236 - 96) * hueShift);
+        const g = Math.floor(165 + (72 - 165) * hueShift);
+        const b = Math.floor(250 + (153 - 250) * hueShift);
 
         this.ctx.beginPath();
         this.ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
@@ -122,11 +121,11 @@
           const dy = a.y - b.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
           if (dist < 120) {
-            const alpha = 0.04 * (1 - dist / 120);
+            const alpha = 0.05 * (1 - dist / 120);
             const midHue = (a.hue + b.hue) / 2;
-            const r = Math.floor(96 + (244 - 96) * midHue);
-            const g = Math.floor(165 + (114 - 165) * midHue);
-            const b = Math.floor(250 + (182 - 250) * midHue);
+            const r = Math.floor(96 + (236 - 96) * midHue);
+            const g = Math.floor(165 + (72 - 165) * midHue);
+            const b = Math.floor(250 + (153 - 250) * midHue);
             this.ctx.beginPath();
             this.ctx.moveTo(a.x, a.y);
             this.ctx.lineTo(b.x, b.y);

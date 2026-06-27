@@ -4,11 +4,12 @@
   --font-sans: 'Plus Jakarta Sans', 'Geist', 'PingFang SC', 'Microsoft YaHei', sans-serif;
   --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
   --font-display: 'Clash Display', 'Plus Jakarta Sans', sans-serif;
-  --color-bg-primary: #0B0E1A;
-  --color-bg-card: #161C2E;
-  --color-text-body: #C8D0E6;
-  --color-accent: #F472B6;
-  --color-accent-dark: #EC4899;
+  --color-bg-primary: #F5F5F0;
+  --color-bg-card: #FFFFFF;
+  --color-text-heading: #1A1A2E;
+  --color-text-body: #4A4A5A;
+  --color-accent: #EC4899;
+  --color-accent-dark: #F472B6;
   --color-particle-blue: #60A5FA;
 }
 
@@ -20,12 +21,12 @@
   }
 
   body {
-    @apply bg-bg-primary text-white font-sans;
+    @apply bg-bg-primary text-text-heading font-sans;
     font-feature-settings: "ss01", "ss02", "cv01", "cv03";
   }
 
   ::selection {
-    @apply bg-accent/30 text-white;
+    @apply bg-accent/20 text-accent;
   }
 }
 

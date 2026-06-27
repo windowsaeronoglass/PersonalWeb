@@ -16,21 +16,21 @@ const { title, description, date, ogImage } = Astro.props;
   <article class="container-page py-32">
     <header class="mb-16">
       <div class="mb-6">
-        <span class="inline-block rounded-full border border-particle-blue/10 bg-particle-blue/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
+        <span class="inline-block rounded-full border border-particle-blue/15 bg-particle-blue/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
           Blog
         </span>
       </div>
-      <h1 class="font-display text-4xl font-semibold leading-tight tracking-tight md:text-6xl lg:text-7xl">
+      <h1 class="font-display text-4xl font-semibold leading-tight tracking-tight text-text-heading md:text-6xl lg:text-7xl">
         {title}
       </h1>
       <time datetime={date.toISOString()} class="mt-6 block text-sm text-text-body/50">
         {date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
       </time>
     </header>
-    <div class="prose prose-invert prose-lg mx-auto max-w-[720px] prose-p:text-text-body/80 prose-a:text-accent prose-strong:text-white prose-code:text-particle-blue">
+    <div class="prose prose-lg mx-auto max-w-[720px] prose-p:text-text-body/85 prose-a:text-accent prose-a:no-underline hover:prose-a:underline prose-strong:text-text-heading prose-code:text-particle-blue prose-code:bg-particle-blue/10 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-pre:bg-[#1A1A2E] prose-pre:text-[#C8D0E6]">
       <slot />
     </div>
-    <footer class="mx-auto mt-24 max-w-[720px] border-t border-particle-blue/5 pt-12">
+    <footer class="mx-auto mt-24 max-w-[720px] border-t border-black/5 pt-12">
       <slot name="comments" />
     </footer>
   </article>

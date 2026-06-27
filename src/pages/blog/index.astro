@@ -11,13 +11,13 @@ const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTim
 <BaseLayout title="博客" description="技术、代码等文章分享。">
   <section class="container-page py-32">
     <ScrollReveal>
-      <span class="inline-block rounded-full border border-particle-blue/10 bg-particle-blue/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
+      <span class="inline-block rounded-full border border-particle-blue/15 bg-particle-blue/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
         文章
       </span>
       <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
         博客
       </h1>
-      <p class="mt-4 max-w-[500px] text-text-body/60">
+      <p class="mt-4 max-w-[500px] text-text-body/70">
         所思所想、教程与深度探索。
       </p>
     </ScrollReveal>
@@ -33,8 +33,8 @@ const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTim
             <ScrollReveal>
               <a href={`/blog/${post.slug}`} class="group block">
                 <div class="relative rounded-[2rem] p-[1.5px] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.01]"
-                  style="background: linear-gradient(135deg, rgba(96,165,250,0.12) 0%, rgba(244,114,182,0.06) 100%)">
-                  <div class="rounded-[calc(2rem-1.5px)] bg-bg-card/90 p-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl">
+                  style="background: linear-gradient(135deg, rgba(96,165,250,0.2) 0%, rgba(236,72,153,0.1) 100%)">
+                  <div class="rounded-[calc(2rem-1.5px)] bg-white/80 p-8 shadow-sm backdrop-blur-xl">
                     <div class="mb-3 flex items-center gap-3">
                       {post.data.tags.slice(0, 2).map((tag) => (
                         <span class="rounded-full border border-particle-blue/10 bg-particle-blue/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-text-body/50">
@@ -42,20 +42,20 @@ const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTim
                         </span>
                       ))}
                     </div>
-                    <h2 class="font-display text-xl font-semibold tracking-tight text-white">
+                    <h2 class="font-display text-xl font-semibold tracking-tight text-text-heading group-hover:text-accent transition-colors duration-700">
                       {post.data.title}
                     </h2>
                     {post.data.description && (
-                      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-text-body/60">
+                      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-text-body/70">
                         {post.data.description}
                       </p>
                     )}
-                    <time datetime={post.data.date.toISOString()} class="mt-4 block text-xs text-text-body/30">
+                    <time datetime={post.data.date.toISOString()} class="mt-4 block text-xs text-text-body/35">
                       {post.data.date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
                     </time>
                     <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-text-body/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-accent">
                       阅读全文
-                      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-particle-blue/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105 group-hover:bg-accent/15">
+                      <span class="flex h-7 w-7 items-center justify-center rounded-full bg-black/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105 group-hover:bg-accent/15">
                         <i class="ri-arrow-right-up-line text-xs"></i>
                       </span>
                     </div>

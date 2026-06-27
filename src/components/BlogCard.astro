@@ -22,15 +22,15 @@ const { title, description, date, slug, tags = [] } = Astro.props;
         </span>
       ))}
     </div>
-    <h3 class="font-display text-xl font-semibold tracking-tight text-white transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-white/90">
+    <h3 class="font-display text-xl font-semibold tracking-tight text-text-heading transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-accent">
       {title}
     </h3>
     {description && (
-      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-text-body/60">
+      <p class="mt-2 line-clamp-2 text-sm leading-relaxed text-text-body/70">
         {description}
       </p>
     )}
-    <time datetime={date.toISOString()} class="mt-4 block text-xs text-text-body/30">
+    <time datetime={date.toISOString()} class="mt-4 block text-xs text-text-body/35">
       {date.toLocaleDateString(siteConfig.locale, { year: 'numeric', month: 'long', day: 'numeric' })}
     </time>
     <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-text-body/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-accent">

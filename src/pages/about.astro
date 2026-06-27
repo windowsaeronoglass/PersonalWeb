@@ -8,7 +8,7 @@ import { siteConfig } from '../site.config';
 <BaseLayout title="关于" description="关于我 — 我是谁，我做什么。">
   <section class="container-page py-32">
     <ScrollReveal>
-      <span class="inline-block rounded-full border border-particle-blue/10 bg-particle-blue/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
+      <span class="inline-block rounded-full border border-particle-blue/15 bg-particle-blue/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
         关于
       </span>
       <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
@@ -19,8 +19,8 @@ import { siteConfig } from '../site.config';
     <div class="mt-16 grid gap-12 lg:grid-cols-[1fr_1.5fr]">
       <ScrollReveal>
         <div class="relative overflow-hidden rounded-[2rem] p-[1.5px]"
-          style="background: linear-gradient(135deg, rgba(96,165,250,0.12) 0%, rgba(244,114,182,0.06) 100%)">
-          <div class="aspect-[3/4] rounded-[calc(2rem-1.5px)] bg-bg-card/90 p-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] backdrop-blur-xl">
+          style="background: linear-gradient(135deg, rgba(96,165,250,0.2) 0%, rgba(236,72,153,0.1) 100%)">
+          <div class="aspect-[3/4] rounded-[calc(2rem-1.5px)] bg-white/80 p-6 shadow-sm backdrop-blur-xl">
             <div class="flex h-full items-center justify-center text-text-body/10">
               <i class="ri-user-line text-8xl"></i>
             </div>
@@ -32,7 +32,7 @@ import { siteConfig } from '../site.config';
         <ScrollReveal>
           <GlassCard>
             <h2 class="font-display text-2xl font-semibold tracking-tight text-accent">你好</h2>
-            <p class="mt-4 leading-relaxed text-text-body/70">
+            <p class="mt-4 leading-relaxed text-text-body/80">
               {siteConfig.author.aboutText}
             </p>
           </GlassCard>
@@ -54,9 +54,9 @@ import { siteConfig } from '../site.config';
         <ScrollReveal>
           <GlassCard>
             <h2 class="font-display text-2xl font-semibold tracking-tight text-text-body">关于本站</h2>
-            <p class="mt-4 leading-relaxed text-text-body/60">
-              基于 <span class="text-particle-blue">Astro</span> 构建，使用
-              <span class="text-accent">Tailwind CSS</span> 样式，部署在自有服务器上。
+            <p class="mt-4 leading-relaxed text-text-body/70">
+              基于 <span class="text-particle-blue font-medium">Astro</span> 构建，使用
+              <span class="text-accent font-medium">Tailwind CSS</span> 样式，部署在自有服务器上。
               设计采用毛玻璃风格与动态粒子背景。
             </p>
           </GlassCard>

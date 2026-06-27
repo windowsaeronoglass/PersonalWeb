@@ -9,13 +9,13 @@ import { siteConfig } from '../site.config';
 <BaseLayout title="联系" description="与我取得联系。">
   <section class="container-page py-32">
     <ScrollReveal>
-      <span class="inline-block rounded-full border border-particle-blue/10 bg-particle-blue/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
+      <span class="inline-block rounded-full border border-particle-blue/15 bg-particle-blue/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
         联系方式
       </span>
       <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
         联系我
       </h1>
-      <p class="mt-4 max-w-[500px] text-text-body/60">
+      <p class="mt-4 max-w-[500px] text-text-body/70">
         有问题、项目想法，或者只是想打个招呼？填下表，我会尽快回复。
       </p>
     </ScrollReveal>
@@ -29,7 +29,7 @@ import { siteConfig } from '../site.config';
                 <i class="ri-mail-line"></i>
               </span>
               <div>
-                <h3 class="font-semibold text-text-body">邮箱</h3>
+                <h3 class="font-semibold text-text-heading">邮箱</h3>
                 <p class="mt-1 text-sm text-text-body/50 group-hover:text-accent transition-colors duration-700">{siteConfig.author.email}</p>
               </div>
             </a>
@@ -43,7 +43,7 @@ import { siteConfig } from '../site.config';
                 <i class="ri-github-fill"></i>
               </span>
               <div>
-                <h3 class="font-semibold text-text-body">GitHub</h3>
+                <h3 class="font-semibold text-text-heading">GitHub</h3>
                 <p class="mt-1 text-sm text-text-body/50 group-hover:text-particle-blue transition-colors duration-700">{siteConfig.social.github.replace('https://github.com/', '')}</p>
               </div>
             </a>
@@ -57,7 +57,7 @@ import { siteConfig } from '../site.config';
                 <i class="ri-bilibili-fill"></i>
               </span>
               <div>
-                <h3 class="font-semibold text-text-body">Bilibili</h3>
+                <h3 class="font-semibold text-text-heading">Bilibili</h3>
                 <p class="mt-1 text-sm text-text-body/50 group-hover:text-accent transition-colors duration-700">UID: 353979806</p>
               </div>
             </a>
