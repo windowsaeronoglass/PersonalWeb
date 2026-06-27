@@ -45,6 +45,6 @@ export const siteConfig = {
   locale: 'zh-CN',
   htmlLang: 'zh-CN',
 
-  // ========== 联系表单 API ==========
-  contactApiPath: '/api/contact',
+  // ========== 联系表单 ==========
+  formspreeEndpoint: 'https://formspree.io/f/xdargrjq',
 } as const;

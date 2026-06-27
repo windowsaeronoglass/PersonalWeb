@@ -4,7 +4,7 @@ import { siteConfig } from '../site.config';
 ---
 
 <GlassCard class="mx-auto max-w-[560px]">
-  <form id="contact-form" class="space-y-6">
+  <form id="contact-form" action={siteConfig.formspreeEndpoint} method="POST" class="space-y-6">
     <div class="grid gap-6 md:grid-cols-2">
       <div>
         <label for="name" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-text-body/60">姓名</label>
@@ -64,7 +64,7 @@ import { siteConfig } from '../site.config';
   </form>
 </GlassCard>
 
-<script define:vars={{ apiPath: siteConfig.contactApiPath }}>
+<script define:vars={{ endpoint: siteConfig.formspreeEndpoint }}>
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const status = document.getElementById('form-status')!;
   const submitText = document.getElementById('submit-text')!;
@@ -74,13 +74,13 @@ import { siteConfig } from '../site.config';
     submitText.textContent = '发送中...';
     status.className = 'hidden';
 
-    const data = Object.fromEntries(new FormData(form));
+    const data = new FormData(form);
 
     try {
-      const res = await fetch(apiPath, {
+      const res = await fetch(endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: data,
+        headers: { 'Accept': 'application/json' },
       });
 
       if (res.ok) {
