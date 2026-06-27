@@ -1,15 +1,15 @@
 export const siteConfig = {
   // ========== 站点信息 ==========
   url: 'https://ngls211-fir.top',
-  title: "Mo's Blog",
-  description: 'Personal website & blog',
+  title: "ngls211's Blog",
+  description: '一个普通的个人小站 & blogs',
 
   // ========== 个人信息 ==========
   author: {
-    name: 'Mo',
+    name: 'ngls211',
     bio: 'Software engineer, builder, and occasional writer. I craft things for the web and explore the spaces between code and creativity.',
-    aboutText: "I'm a software engineer passionate about building things for the web. I enjoy working across the stack — from crafting polished UIs to designing scalable backend systems.",
-    email: 'hello@example.com',
+    aboutText: "分享,分享，嗯...没啥了",
+    email: '3083067505@qq.com',
   },
 
   // ========== 技能标签（关于页） ==========
