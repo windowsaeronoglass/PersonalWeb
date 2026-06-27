@@ -56,6 +56,52 @@ const recentPosts = posts
     </div>
   </section>
 
+  <section class="py-32">
+    <div class="container-page">
+      <ScrollReveal>
+        <span class="inline-block rounded-full border border-particle-blue/15 bg-particle-blue/8 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-text-body/50">
+          作品
+        </span>
+        <h2 class="mt-4 font-display text-3xl font-semibold tracking-tight md:text-4xl text-text-heading">
+          我的项目
+        </h2>
+      </ScrollReveal>
+
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {siteConfig.projects.map((project) => (
+          <ScrollReveal>
+            <a href={project.link} target="_blank" rel="noopener noreferrer" class="group block">
+              <div class="relative rounded-[2rem] p-[1.5px] transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:scale-[1.01]"
+                style="background: linear-gradient(135deg, rgba(96,165,250,0.2) 0%, rgba(236,72,153,0.1) 100%)">
+                <div class="rounded-[calc(2rem-1.5px)] bg-white/80 p-8 shadow-sm backdrop-blur-xl">
+                  <div class="mb-3 flex items-center gap-3">
+                    {project.tech.slice(0, 3).map((t: string) => (
+                      <span class="rounded-full border border-particle-blue/10 bg-particle-blue/5 px-2.5 py-0.5 text-[10px] font-medium uppercase tracking-[0.15em] text-text-body/50">
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 class="font-display text-xl font-semibold tracking-tight text-text-heading group-hover:text-accent transition-colors duration-700">
+                    {project.name}
+                  </h3>
+                  <p class="mt-2 line-clamp-3 text-sm leading-relaxed text-text-body/70">
+                    {project.description}
+                  </p>
+                  <div class="mt-5 inline-flex items-center gap-2 text-sm font-medium text-text-body/50 transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:text-accent">
+                    查看项目
+                    <span class="flex h-7 w-7 items-center justify-center rounded-full bg-black/5 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105 group-hover:bg-accent/15">
+                      <i class="ri-arrow-right-up-line text-xs"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </ScrollReveal>
+        ))}
+      </div>
+    </div>
+  </section>
+
   {
     recentPosts.length > 0 && (
       <section class="py-32">

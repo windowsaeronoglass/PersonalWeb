@@ -15,6 +15,16 @@ export const siteConfig = {
   // ========== 技能标签（关于页） ==========
   skills: ['TypeScript', 'React', 'Node.js', 'Python', 'Go', 'PostgreSQL', 'Docker', 'AWS'],
 
+  // ========== 项目展示（首页） ==========
+  projects: [
+    {
+      name: 'PersonWeb',
+      description: '个人博客网站，基于 Astro + Tailwind CSS，毛玻璃风格，支持粒子背景、鼠标交互动效、Giscus 评论。',
+      tech: ['Astro', 'Tailwind CSS', 'TypeScript'],
+      link: 'https://github.com/windowsaeronoglass/PersonalWeb',
+    },
+  ],
+
   // ========== 社交链接 ==========
   social: {
     github: 'https://github.com/windowsaeronoglass',

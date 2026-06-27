@@ -43,15 +43,15 @@
       const dy = this.mouse.y - this.lastMouse.y;
       const dist = Math.sqrt(dx * dx + dy * dy);
 
-      if (dist > 3) {
-        const steps = Math.floor(dist / 4);
+      if (dist > 0.5) {
+        const steps = Math.floor(dist / 2);
         for (let i = 0; i < steps; i++) {
           const t = i / steps;
           this.trail.push({
             x: this.lastMouse.x + dx * t,
             y: this.lastMouse.y + dy * t,
-            r: Math.random() * 3 + 2,
-            life: 1,
+            r: Math.random() * 2 + 1.5,
+            life: 0.7,
           });
         }
       }
@@ -80,7 +80,7 @@
       // Draw trail
       for (let i = this.trail.length - 1; i >= 0; i--) {
         const p = this.trail[i];
-        p.life -= 0.015;
+        p.life -= 0.04;
         if (p.life <= 0) {
           this.trail.splice(i, 1);
           continue;
@@ -135,8 +135,8 @@
       }
 
       // Limit trail length
-      if (this.trail.length > 120) {
-        this.trail.splice(0, this.trail.length - 120);
+      if (this.trail.length > 60) {
+        this.trail.splice(0, this.trail.length - 60);
       }
     };
   }
