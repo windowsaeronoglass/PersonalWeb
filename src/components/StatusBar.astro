@@ -87,18 +87,40 @@ const navItems = [
   }
   updateDays();
 
-  // 天气 (wttr.in, 免费无需 key)
-  async function fetchWeather() {
+  // 天气 (Open-Meteo, 免费无需 key)
+  async function fetchWeather(lat?: number, lon?: number) {
     try {
-      const res = await fetch('https://wttr.in/?format=%C+%t');
-      const text = await res.text();
-      const el = document.getElementById('status-weather');
-      if (el && text.trim()) {
-        el.textContent = text.trim();
+      if (!lat || !lon) {
+        // 默认：成都
+        lat = 30.57;
+        lon = 104.07;
       }
+      const res = await fetch(
+        `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code&timezone=auto`
+      );
+      const data = await res.json();
+      const temp = Math.round(data.current.temperature_2m);
+      const code = data.current.weather_code;
+      const icon = ['☀️','🌤','⛅','☁️','🌧','⛈','🌨','🌫'][
+        [0,1,2,3].includes(code) ? 0 :
+        code <= 2 ? 1 :
+        code === 3 ? 3 :
+        code <= 48 ? 7 :
+        [51,53,55,56,57,61,63,65,66,67,80,81,82].includes(code) ? 4 :
+        [71,73,75,77,85,86].includes(code) ? 6 :
+        [95,96,99].includes(code) ? 5 : 2
+      ];
+      const el = document.getElementById('status-weather');
+      if (el) el.textContent = `${icon} ${temp}°C`;
     } catch {}
   }
-  fetchWeather();
+
+  navigator.geolocation?.getCurrentPosition(
+    (pos) => fetchWeather(pos.coords.latitude, pos.coords.longitude),
+    () => fetchWeather(),
+    { timeout: 5000 }
+  );
+  if (!navigator.geolocation) fetchWeather();
   setInterval(fetchWeather, 30 * 60 * 1000);
 
   // 访客计数 (localStorage)
