@@ -38,7 +38,7 @@ const navItems = [
         </span>
       )}
 
-      <span id="status-days" class="hidden shrink-0 lg:inline">运行中</span>
+      <span id="status-days" class="hidden shrink-0 lg:inline" data-launch={launchMs}>运行中</span>
 
       <span class="hidden shrink-0 sm:inline">{postCount} 篇文章</span>
 
@@ -69,25 +69,23 @@ const navItems = [
 
 <script is:inline>
   (function() {
-    var launchMs = {launchMs};
+    // 运行天数
+    var daysEl = document.getElementById('status-days');
+    if (daysEl) {
+      var launchMs = parseInt(daysEl.getAttribute('data-launch'), 10);
+      var days = Math.floor((Date.now() - launchMs) / 86400000);
+      daysEl.textContent = '已运行 ' + days + ' 天';
+    }
 
     // 实时时钟
     function updateClock() {
       var el = document.getElementById('status-clock');
       if (el) {
-        var now = new Date();
-        el.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+        el.textContent = new Date().toLocaleTimeString('zh-CN', { hour12: false });
       }
     }
     updateClock();
     setInterval(updateClock, 1000);
-
-    // 运行天数
-    var daysEl = document.getElementById('status-days');
-    if (daysEl) {
-      var days = Math.floor((Date.now() - launchMs) / 86400000);
-      daysEl.textContent = '已运行 ' + days + ' 天';
-    }
 
     // 天气
     function getWeatherIcon(code) {
@@ -136,7 +134,7 @@ const navItems = [
         localStorage.setItem(key, String(count));
         localStorage.setItem('site_last_visit', today);
       }
-      visitorsEl.textContent = '访客 #' + count;
+      visitorsEl.textContent = '访客 ' + count;
     }
 
     // 搜索按钮
