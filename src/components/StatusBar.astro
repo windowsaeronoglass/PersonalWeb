@@ -1,0 +1,148 @@
+---
+import { siteConfig } from '../site.config';
+
+export interface Props {
+  postCount: number;
+  lastUpdate: Date | null;
+}
+
+const { postCount, lastUpdate } = Astro.props;
+const launchMs = new Date(siteConfig.launchDate).getTime();
+const navItems = [
+  { label: '首页', href: '/' },
+  { label: '博客', href: '/blog' },
+  { label: '关于', href: '/about' },
+  { label: '联系', href: '/contact' },
+];
+---
+
+<header
+  id="status-bar"
+  class="fixed left-0 top-0 z-50 w-full border-b border-black/5 bg-white/80 backdrop-blur-xl"
+>
+  <div class="mx-auto flex h-10 max-w-[1400px] items-center justify-between px-4 text-[11px]">
+    <!-- 左侧：状态信息 -->
+    <div class="flex items-center gap-4 overflow-hidden text-text-body/50">
+      <span class="flex items-center gap-1.5 shrink-0">
+        <span class="inline-block h-1.5 w-1.5 rounded-full bg-emerald-400 shadow-[0_0_4px_rgba(52,211,153,0.6)]"></span>
+        <span>在线</span>
+      </span>
+
+      <span id="status-clock" class="shrink-0 tabular-nums text-text-body/70">--:--:--</span>
+
+      <span id="status-weather" class="shrink-0 hidden sm:inline">--°C</span>
+
+      {lastUpdate && (
+        <span class="hidden shrink-0 md:inline">
+          更新于 {lastUpdate.toLocaleDateString(siteConfig.locale, { month: 'short', day: 'numeric' })}
+        </span>
+      )}
+
+      <span id="status-days" class="hidden shrink-0 lg:inline">运行中</span>
+
+      <span class="hidden shrink-0 sm:inline">{postCount} 篇文章</span>
+
+      <span id="status-visitors" class="hidden shrink-0 lg:inline">访客</span>
+    </div>
+
+    <!-- 右侧：导航 + 搜索 -->
+    <div class="flex items-center gap-1 shrink-0">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class="rounded-md px-2.5 py-1 font-medium text-text-body/50 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-text-heading data-[current]:text-accent"
+          data-current={Astro.url.pathname === item.href ? '' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+      <button
+        id="status-search"
+        class="ml-1 flex items-center gap-1 rounded-md px-2 py-1 text-text-body/40 transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-accent"
+        title="搜索 (开发中)"
+      >
+        <i class="ri-search-line text-sm"></i>
+      </button>
+    </div>
+  </div>
+</header>
+
+<script define:vars={{ launchMs, launchDate: siteConfig.launchDate }}>
+  // 实时时钟
+  function updateClock() {
+    const el = document.getElementById('status-clock');
+    if (!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString('zh-CN', { hour12: false });
+  }
+  updateClock();
+  setInterval(updateClock, 1000);
+
+  // 运行天数
+  function updateDays() {
+    const el = document.getElementById('status-days');
+    if (!el) return;
+    const days = Math.floor((Date.now() - launchMs) / 86400000);
+    el.textContent = `已运行 ${days} 天`;
+  }
+  updateDays();
+
+  // 天气 (wttr.in, 免费无需 key)
+  async function fetchWeather() {
+    try {
+      const res = await fetch('https://wttr.in/?format=%C+%t');
+      const text = await res.text();
+      const el = document.getElementById('status-weather');
+      if (el && text.trim()) {
+        el.textContent = text.trim();
+      }
+    } catch {}
+  }
+  fetchWeather();
+  setInterval(fetchWeather, 30 * 60 * 1000);
+
+  // 访客计数 (localStorage)
+  function updateVisitors() {
+    const key = 'site_visits';
+    let count = parseInt(localStorage.getItem(key) || '0', 10);
+    const today = new Date().toDateString();
+    const lastVisit = localStorage.getItem('site_last_visit');
+    if (lastVisit !== today) {
+      count++;
+      localStorage.setItem(key, String(count));
+      localStorage.setItem('site_last_visit', today);
+    }
+    const el = document.getElementById('status-visitors');
+    if (el) {
+      el.textContent = `访客 #${count}`;
+    }
+  }
+  updateVisitors();
+
+  // 搜索按钮
+  document.getElementById('status-search')?.addEventListener('click', () => {
+    const q = prompt('输入搜索关键词：');
+    if (q) {
+      window.open(`https://www.google.com/search?q=site:${location.hostname}+${encodeURIComponent(q)}`, '_blank');
+    }
+  });
+</script>
+
+<script>
+  function updateActiveNav() {
+    const path = window.location.pathname;
+    document.querySelectorAll('#status-bar a').forEach((a) => {
+      const href = a.getAttribute('href');
+      if (href) {
+        const isActive = path === href || (href !== '/' && path.startsWith(href));
+        if (isActive) {
+          a.setAttribute('data-current', '');
+        } else {
+          a.removeAttribute('data-current');
+        }
+      }
+    });
+  }
+  updateActiveNav();
+  document.addEventListener('astro:after-swap', updateActiveNav);
+</script>

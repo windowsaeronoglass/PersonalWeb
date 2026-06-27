@@ -1,9 +1,10 @@
 ---
-import Nav from '../components/Nav.astro';
+import StatusBar from '../components/StatusBar.astro';
 import Footer from '../components/Footer.astro';
 import ParticleBackground from '../components/ParticleBackground.astro';
 import MouseEffects from '../components/MouseEffects.astro';
 import { siteConfig } from '../site.config';
+import { getCollection } from 'astro:content';
 
 export interface Props {
   title: string;
@@ -13,6 +14,11 @@ export interface Props {
 
 const { title, description = '', ogImage } = Astro.props;
 const siteTitle = `${title} | ${siteConfig.title}`;
+
+const allPosts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const postCount = allPosts.length;
+const lastUpdate = sortedPosts.length > 0 ? sortedPosts[0].data.date : null;
 ---
 
 <!doctype html>
@@ -46,8 +52,8 @@ const siteTitle = `${title} | ${siteConfig.title}`;
   <body class="min-h-[100dvh] antialiased">
     <ParticleBackground />
     <MouseEffects />
-    <Nav />
-    <main class="relative z-0">
+    <StatusBar postCount={postCount} lastUpdate={lastUpdate} />
+    <main class="relative z-0 mt-10">
       <slot />
     </main>
     <Footer />

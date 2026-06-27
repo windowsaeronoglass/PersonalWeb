@@ -45,6 +45,9 @@ export const siteConfig = {
   locale: 'zh-CN',
   htmlLang: 'zh-CN',
 
+  // ========== 建站日期 ==========
+  launchDate: '2026-06-27',
+
   // ========== 联系表单 ==========
   formspreeEndpoint: 'https://formspree.io/f/xdargrjq',
 } as const;
