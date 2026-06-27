@@ -6,18 +6,17 @@ import GlassCard from '../components/GlassCard.astro';
 import { siteConfig } from '../site.config';
 ---
 
-<BaseLayout title="Contact" description="Get in touch.">
+<BaseLayout title="联系" description="与我取得联系。">
   <section class="container-page py-32">
     <ScrollReveal>
       <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
-        Get in touch
+        联系方式
       </span>
       <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-        Contact
+        联系我
       </h1>
       <p class="mt-4 max-w-[500px] text-white/40">
-        Have a question, a project idea, or just want to say hi?
-        Fill out the form and I'll get back to you.
+        有问题、项目想法，或者只是想打个招呼？填下表，我会尽快回复。
       </p>
     </ScrollReveal>
 
@@ -30,7 +29,7 @@ import { siteConfig } from '../site.config';
                 <i class="ri-mail-line text-white/50"></i>
               </span>
               <div>
-                <h3 class="font-semibold text-white/70">Email</h3>
+                <h3 class="font-semibold text-white/70">邮箱</h3>
                 <p class="mt-1 text-sm text-white/40">{siteConfig.author.email}</p>
               </div>
             </div>
@@ -55,11 +54,11 @@ import { siteConfig } from '../site.config';
           <GlassCard>
             <div class="flex items-start gap-4">
               <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white/5">
-                <i class="ri-twitter-x-fill text-white/50"></i>
+                <i class="ri-bilibili-fill text-white/50"></i>
               </span>
               <div>
-                <h3 class="font-semibold text-white/70">Twitter / X</h3>
-                <p class="mt-1 text-sm text-white/40">{siteConfig.social.twitter.replace('https://twitter.com/', '@')}</p>
+                <h3 class="font-semibold text-white/70">Bilibili</h3>
+                <p class="mt-1 text-sm text-white/40">UID: 353979806</p>
               </div>
             </div>
           </GlassCard>

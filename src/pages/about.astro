@@ -5,14 +5,14 @@ import GlassCard from '../components/GlassCard.astro';
 import { siteConfig } from '../site.config';
 ---
 
-<BaseLayout title="About" description="About me — who I am and what I do.">
+<BaseLayout title="关于" description="关于我 — 我是谁，我做什么。">
   <section class="container-page py-32">
     <ScrollReveal>
       <span class="inline-block rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-white/50">
-        About
+        关于
       </span>
       <h1 class="mt-4 font-display text-4xl font-semibold tracking-tight md:text-6xl">
-        Who I am
+        我是谁
       </h1>
     </ScrollReveal>
 
@@ -31,7 +31,7 @@ import { siteConfig } from '../site.config';
       <div class="space-y-8">
         <ScrollReveal>
           <GlassCard>
-            <h2 class="font-display text-2xl font-semibold tracking-tight">Hello</h2>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">你好</h2>
             <p class="mt-4 leading-relaxed text-white/50">
               {siteConfig.author.aboutText}
             </p>
@@ -40,7 +40,7 @@ import { siteConfig } from '../site.config';
 
         <ScrollReveal>
           <GlassCard>
-            <h2 class="font-display text-2xl font-semibold tracking-tight">Skills</h2>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">技能</h2>
             <div class="mt-4 flex flex-wrap gap-2">
               {siteConfig.skills.map((skill) => (
                 <span class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/40">
@@ -53,11 +53,11 @@ import { siteConfig } from '../site.config';
 
         <ScrollReveal>
           <GlassCard>
-            <h2 class="font-display text-2xl font-semibold tracking-tight">This site</h2>
+            <h2 class="font-display text-2xl font-semibold tracking-tight">关于本站</h2>
             <p class="mt-4 leading-relaxed text-white/50">
-              Built with <span class="text-white/70">Astro</span>, styled with
-              <span class="text-white/70">Tailwind CSS</span>, and deployed on my own server.
-              The design draws from glassmorphism principles with dynamic particle backgrounds.
+              基于 <span class="text-white/70">Astro</span> 构建，使用
+              <span class="text-white/70">Tailwind CSS</span> 样式，部署在自有服务器上。
+              设计采用毛玻璃风格与动态粒子背景。
             </p>
           </GlassCard>
         </ScrollReveal>

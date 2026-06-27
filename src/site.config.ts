@@ -7,8 +7,8 @@ export const siteConfig = {
   // ========== 个人信息 ==========
   author: {
     name: 'ngls211',
-    bio: 'Software engineer, builder, and occasional writer. I craft things for the web and explore the spaces between code and creativity.',
-    aboutText: "分享,分享，嗯...没啥了",
+    bio: '一个喜欢捣鼓各种技术的人，对 Web 开发、后端架构都有兴趣，偶尔写点东西分享。',
+    aboutText: '对 Web 开发、后端架构都有兴趣，从打磨前端 UI 到设计可扩展的后端系统都乐于探索。',
     email: '3083067505@qq.com',
   },
 
@@ -18,7 +18,7 @@ export const siteConfig = {
   // ========== 社交链接 ==========
   social: {
     github: 'https://github.com/yourusername',
-    twitter: 'https://twitter.com/yourhandle',
+    bilibili: 'https://space.bilibili.com/353979806',
   },
 
   // ========== Giscus 评论 ==========

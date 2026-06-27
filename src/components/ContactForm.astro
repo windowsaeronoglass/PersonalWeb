@@ -7,18 +7,18 @@ import { siteConfig } from '../site.config';
   <form id="contact-form" class="space-y-6">
     <div class="grid gap-6 md:grid-cols-2">
       <div>
-        <label for="name" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Name</label>
+        <label for="name" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">姓名</label>
         <input
           type="text"
           id="name"
           name="name"
           required
-          placeholder="Your name"
+          placeholder="你的名字"
           class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
         />
       </div>
       <div>
-        <label for="email" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Email</label>
+        <label for="email" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">邮箱</label>
         <input
           type="email"
           id="email"
@@ -30,24 +30,24 @@ import { siteConfig } from '../site.config';
       </div>
     </div>
     <div>
-      <label for="subject" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Subject</label>
-      <input
-        type="text"
-        id="subject"
-        name="subject"
-        required
-        placeholder="What's this about?"
+        <label for="subject" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">主题</label>
+        <input
+          type="text"
+          id="subject"
+          name="subject"
+          required
+          placeholder="说点什么？"
         class="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
       />
     </div>
     <div>
-      <label for="message" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">Message</label>
-      <textarea
-        id="message"
-        name="message"
-        required
-        rows="5"
-        placeholder="Your message..."
+        <label for="message" class="mb-2 block text-xs font-medium uppercase tracking-[0.15em] text-white/40">消息</label>
+        <textarea
+          id="message"
+          name="message"
+          required
+          rows="5"
+          placeholder="你的留言..."
         class="w-full resize-none rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white placeholder-white/20 outline-none transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] focus:border-white/30 focus:bg-white/[0.05]"
       ></textarea>
     </div>
@@ -55,7 +55,7 @@ import { siteConfig } from '../site.config';
       type="submit"
       class="group relative inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.05] px-6 py-3 text-sm font-medium text-white transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:bg-white/[0.1] active:scale-[0.98]"
     >
-      <span id="submit-text">Send Message</span>
+      <span id="submit-text">发送消息</span>
       <span class="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
         <i class="ri-send-plane-fill text-xs"></i>
       </span>
@@ -71,7 +71,7 @@ import { siteConfig } from '../site.config';
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    submitText.textContent = 'Sending...';
+    submitText.textContent = '发送中...';
     status.className = 'hidden';
 
     const data = Object.fromEntries(new FormData(form));
@@ -85,7 +85,7 @@ import { siteConfig } from '../site.config';
 
       if (res.ok) {
         status.className = 'block text-white/60 text-sm';
-        status.textContent = 'Message sent successfully! I\'ll get back to you soon.';
+        status.textContent = '发送成功！我会尽快回复。';
         form.reset();
       } else {
         const err = await res.json();
@@ -93,9 +93,9 @@ import { siteConfig } from '../site.config';
       }
     } catch (err: any) {
       status.className = 'block text-red-400/80 text-sm';
-      status.textContent = err.message || 'Something went wrong. Please try again.';
+      status.textContent = err.message || '出了点问题，请重试。';
     } finally {
-      submitText.textContent = 'Send Message';
+      submitText.textContent = '发送消息';
     }
   });
 </script>
